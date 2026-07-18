@@ -1,5 +1,5 @@
 export interface Trace {
-  id: string;
-  title: string;
-  weight: number;
+  readonly id: string;
+  readonly title: string;
+  readonly weight: number;
 }

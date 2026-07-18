@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { World } from "../src/world/World.js";
 import { Replay } from "../src/replay/Replay.js";
+import { World } from "../src/world/World.js";
 
 describe("World", () => {
   it("creates an empty world", () => {
     const world = World.create();
 
     expect(world.history()).toEqual([]);
+    expect(world.view()).toEqual({ traces: [] });
   });
 
   it("records events in sequence order", () => {
@@ -38,9 +39,7 @@ describe("World", () => {
       author: "human"
     });
 
-    const history = world.history();
-    const copy = structuredClone(history);
-
+    const copy = structuredClone(world.history());
     copy[0].title = "Corrupted";
 
     expect(world.history()[0]?.title).toBe("Build VOLT");
@@ -60,10 +59,57 @@ describe("World", () => {
         {
           id: "trace-1",
           title: "Build VOLT",
-          weight: 0
+          weight: 1
         }
       ]
     });
+  });
+
+  it("changes trace cognitive weight through an event", () => {
+    const world = World.create();
+
+    world.submit({
+      type: "TRACE_CREATED",
+      title: "Build VOLT",
+      author: "human"
+    });
+
+    world.submit({
+      type: "TRACE_WEIGHT_CHANGED",
+      traceId: "trace-1",
+      delta: 3,
+      author: "partner"
+    });
+
+    expect(world.view().traces[0]?.weight).toBe(4);
+  });
+
+  it("rejects weight changes for missing traces", () => {
+    const world = World.create();
+
+    expect(() => {
+      world.submit({
+        type: "TRACE_WEIGHT_CHANGED",
+        traceId: "trace-999",
+        delta: 1,
+        author: "human"
+      });
+    }).toThrow("Trace not found: trace-999");
+  });
+
+  it("does not expose mutable projected state", () => {
+    const world = World.create();
+
+    world.submit({
+      type: "TRACE_CREATED",
+      title: "Build VOLT",
+      author: "human"
+    });
+
+    const copy = world.view();
+    copy.traces[0]!.weight = 999;
+
+    expect(world.view().traces[0]?.weight).toBe(1);
   });
 
   it("reconstructs the same world from history", () => {
@@ -76,6 +122,13 @@ describe("World", () => {
     });
 
     world.submit({
+      type: "TRACE_WEIGHT_CHANGED",
+      traceId: "trace-1",
+      delta: 2,
+      author: "partner"
+    });
+
+    world.submit({
       type: "TRACE_CREATED",
       title: "Write Replay",
       author: "partner"
@@ -84,9 +137,5 @@ describe("World", () => {
     const replay = Replay.from(world.history());
 
     expect(replay).toEqual(world.view());
-  });
-
-  it("rejects invalid event types at compile time", () => {
-    expect(true).toBe(true);
   });
 });
