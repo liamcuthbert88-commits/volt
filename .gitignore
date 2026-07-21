@@ -3,3 +3,12 @@ dist
 coverage
 .vscode
 .DS_Store
+
+# Local VOLT data — durable, but personal, never checked in.
+database/*.sqlite
+database/*.sqlite-*
+
+# Secrets — API keys never get checked in. .env.example is the template.
+.env
+.env.*
+!.env.example

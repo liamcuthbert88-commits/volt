@@ -1,0 +1,177 @@
+@import 'tailwindcss';
+
+/* -------------------------------------------------------------------------
+ * The Sanctuary — gothic design tokens
+ * A single always-dark theme: near-black grounds, muted plum/burgundy,
+ * candle-gold and moonlit-silver accents. No pure black, no pure white —
+ * everything is softened so long reading sessions stay comfortable.
+ * ---------------------------------------------------------------------- */
+
+:root {
+  /* Surfaces, darkest to lightest */
+  --color-void: #0b0a0d;
+  --color-background: #121014;
+  --color-surface: #1a171d;
+  --color-surface-raised: #221e26;
+  --color-surface-overlay: #2b262f;
+  --color-border: #352f3a;
+  --color-border-soft: #2a252d;
+
+  /* Text */
+  --color-ink: #ece7ec;
+  --color-ink-muted: #b6aebb;
+  --color-ink-faint: #83798c;
+
+  /* Accents */
+  --color-plum: #6f4e73;
+  --color-plum-soft: #4f3a56;
+  --color-plum-foreground: #f1e9f2;
+
+  --color-burgundy: #7a2f3b;
+  --color-burgundy-soft: #58232c;
+  --color-burgundy-foreground: #f4e6e8;
+
+  --color-gold: #cba05e;
+  --color-gold-soft: #8f7040;
+  --color-gold-foreground: #201806;
+
+  --color-silver: #b9c2d0;
+  --color-silver-soft: #7d8494;
+  --color-silver-foreground: #171a20;
+
+  /* Feedback — gentle, never alarming. No red-for-failure. */
+  --color-calm: #5f8f7a;
+  --color-notice: var(--color-gold);
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+
+  --shadow-candle: 0 2px 24px -4px rgb(203 160 94 / 0.12);
+  --shadow-deep: 0 12px 40px -12px rgb(0 0 0 / 0.55);
+
+  /* Minimum comfortable touch target */
+  --tap-size: 3rem;
+}
+
+@theme inline {
+  --color-void: var(--color-void);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-surface-overlay: var(--color-surface-overlay);
+  --color-border: var(--color-border);
+  --color-border-soft: var(--color-border-soft);
+
+  --color-ink: var(--color-ink);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-ink-faint: var(--color-ink-faint);
+
+  --color-plum: var(--color-plum);
+  --color-plum-soft: var(--color-plum-soft);
+  --color-plum-foreground: var(--color-plum-foreground);
+
+  --color-burgundy: var(--color-burgundy);
+  --color-burgundy-soft: var(--color-burgundy-soft);
+  --color-burgundy-foreground: var(--color-burgundy-foreground);
+
+  --color-gold: var(--color-gold);
+  --color-gold-soft: var(--color-gold-soft);
+  --color-gold-foreground: var(--color-gold-foreground);
+
+  --color-silver: var(--color-silver);
+  --color-silver-soft: var(--color-silver-soft);
+  --color-silver-foreground: var(--color-silver-foreground);
+
+  --color-calm: var(--color-calm);
+  --color-notice: var(--color-notice);
+
+  /* shadcn/ui semantic aliases mapped onto the gothic palette */
+  --color-foreground: var(--color-ink);
+  --color-card: var(--color-surface);
+  --color-card-foreground: var(--color-ink);
+  --color-popover: var(--color-surface-raised);
+  --color-popover-foreground: var(--color-ink);
+  --color-primary: var(--color-plum);
+  --color-primary-foreground: var(--color-plum-foreground);
+  --color-secondary: var(--color-surface-raised);
+  --color-secondary-foreground: var(--color-ink);
+  --color-muted: var(--color-surface-raised);
+  --color-muted-foreground: var(--color-ink-muted);
+  --color-accent: var(--color-gold);
+  --color-accent-foreground: var(--color-gold-foreground);
+  --color-destructive: var(--color-burgundy);
+  --color-destructive-foreground: var(--color-burgundy-foreground);
+  --color-input: var(--color-border);
+  --color-ring: var(--color-gold-soft);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --font-sans:
+    'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia,
+    serif;
+  --font-body:
+    'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background: radial-gradient(
+      120% 140% at 50% -10%,
+      #1c1720 0%,
+      var(--color-background) 55%,
+      var(--color-void) 100%
+    );
+    background-attachment: fixed;
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  ::selection {
+    background: var(--color-plum-soft);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+}
+
+/* Respect reduced-motion preferences everywhere: no exceptions carved out
+ * per-component, so nothing sneaks in a transition later without this
+ * catching it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

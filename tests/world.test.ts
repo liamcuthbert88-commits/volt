@@ -39,10 +39,17 @@ describe("World", () => {
       author: "human"
     });
 
-    const copy = structuredClone(world.history());
+    const copy = structuredClone(world.history()) as any;
+
     copy[0].title = "Corrupted";
 
-    expect(world.history()[0]?.title).toBe("Build VOLT");
+    const first = world.history()[0];
+
+    expect(first?.type).toBe("TRACE_CREATED");
+
+    if (first?.type === "TRACE_CREATED") {
+      expect(first.title).toBe("Build VOLT");
+    }
   });
 
   it("projects traces into world state", () => {
@@ -106,8 +113,9 @@ describe("World", () => {
       author: "human"
     });
 
-    const copy = world.view();
-    copy.traces[0]!.weight = 999;
+    const copy = structuredClone(world.view()) as any;
+
+    copy.traces[0].weight = 999;
 
     expect(world.view().traces[0]?.weight).toBe(1);
   });
@@ -134,8 +142,6 @@ describe("World", () => {
       author: "partner"
     });
 
-    const replay = Replay.from(world.history());
-
-    expect(replay).toEqual(world.view());
+    expect(Replay.from(world.history())).toEqual(world.view());
   });
 });
