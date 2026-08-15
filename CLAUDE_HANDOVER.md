@@ -2,6 +2,12 @@
 
 Handover after Integration Sprints 2-4. Context ran out mid-session; this is the factual state, not a new report.
 
+> **Superseded 2026-08-16.** Every `mobile/` reference below describes the
+> React Native app, which is retired — see `_archive/mobile-app-superseded/README.md`.
+> `volt-hud/android/` (a native wrapper around the real HUD, not a second
+> implementation of it) is the actual mobile strategy now. The backend
+> sections below (World, API, Intelligence under `src/`) are still current.
+
 ## 1. What was completed in the last sprint (Sprint 4 — Daily Companion)
 
 - Calendar-day awareness: one `DailySession` entity per local day, created on first app open that day.
