@@ -12,3 +12,7 @@ database/*.sqlite-*
 .env
 .env.*
 !.env.example
+
+# npm lockfile — this project uses pnpm (pnpm-lock.yaml); an accidental
+# npm install must never commit a conflicting one.
+package-lock.json
