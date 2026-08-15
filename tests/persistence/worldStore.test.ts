@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { fileURLToPath } from "node:url";
 import { openDatabase } from "../../src/persistence/Database.js";
 import { loadMigrations, runMigrations } from "../../src/persistence/MigrationRunner.js";
 import { EventStore } from "../../src/persistence/EventStore.js";
 import { WorldStore } from "../../src/world/canonical/WorldStore.js";
 
-const MIGRATIONS_DIR = new URL("../../database/migrations", import.meta.url).pathname;
+const MIGRATIONS_DIR = fileURLToPath(new URL("../../database/migrations", import.meta.url));
 
 function makeEventStore(): EventStore {
   const db = openDatabase(":memory:");

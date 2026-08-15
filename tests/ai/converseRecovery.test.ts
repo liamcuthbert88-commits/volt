@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
+import { fileURLToPath } from "node:url";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -6,7 +7,7 @@ import { recoverWorld } from "../../src/persistence/Recovery.js";
 import { runConversePipeline } from "../../src/ai/ConversePipeline.js";
 import { FakeAIProvider } from "./fakeProvider.js";
 
-const MIGRATIONS_DIR = new URL("../../database/migrations", import.meta.url).pathname;
+const MIGRATIONS_DIR = fileURLToPath(new URL("../../database/migrations", import.meta.url));
 
 let tempDir: string | undefined;
 

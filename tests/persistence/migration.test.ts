@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
+import { fileURLToPath } from "node:url";
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { openDatabase } from "../../src/persistence/Database.js";
 import { loadMigrations, runMigrations } from "../../src/persistence/MigrationRunner.js";
 
-const MIGRATIONS_DIR = new URL("../../database/migrations", import.meta.url).pathname;
+const MIGRATIONS_DIR = fileURLToPath(new URL("../../database/migrations", import.meta.url));
 
 describe("MigrationRunner", () => {
   it("loads migrations sorted by numeric version prefix", () => {

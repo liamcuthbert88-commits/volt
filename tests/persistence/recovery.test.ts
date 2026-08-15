@@ -1,10 +1,11 @@
 import { afterEach, describe, expect, it } from "vitest";
+import { fileURLToPath } from "node:url";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { recoverWorld } from "../../src/persistence/Recovery.js";
 
-const MIGRATIONS_DIR = new URL("../../database/migrations", import.meta.url).pathname;
+const MIGRATIONS_DIR = fileURLToPath(new URL("../../database/migrations", import.meta.url));
 
 let tempDir: string | undefined;
 
@@ -23,11 +24,12 @@ afterEach(() => {
 describe("recoverWorld — database restart and recovery", () => {
   it("starts from a clean World when no database exists yet", () => {
     const path = tempDatabasePath();
-    const { world, eventsReplayed, migrationsApplied } = recoverWorld(path, MIGRATIONS_DIR);
+    const { world, eventsReplayed, migrationsApplied, db } = recoverWorld(path, MIGRATIONS_DIR);
 
     expect(eventsReplayed).toBe(0);
     expect(migrationsApplied).toBeGreaterThan(0);
     expect(world.view()).toEqual({ traces: [] });
+    db.close();
   });
 
   it("returns to exactly the same World after a simulated restart", () => {

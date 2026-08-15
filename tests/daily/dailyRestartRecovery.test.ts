@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
+import { fileURLToPath } from "node:url";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -7,7 +8,7 @@ import { findOrCreateDailySession, findDailySession } from "../../src/daily/Dail
 import { generateDailySummary, findDailySummary } from "../../src/daily/DailySummary.js";
 import { FakeAIProvider } from "../ai/fakeProvider.js";
 
-const MIGRATIONS_DIR = new URL("../../database/migrations", import.meta.url).pathname;
+const MIGRATIONS_DIR = fileURLToPath(new URL("../../database/migrations", import.meta.url));
 
 let tempDir: string | undefined;
 
