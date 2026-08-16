@@ -1,2 +1,9 @@
 allowBuilds:
   esbuild: true
+
+# Transitive dev-only deps pulled in by vitest -> vite -> postcss, pinned past
+# their advisories without bumping vitest's major version. See GHSA-fxqj-rqcc-2cmp
+# (postcss) and GHSA-2v37-7h3g-55p8 (nanoid).
+overrides:
+  postcss: ">=8.5.23"
+  nanoid: ">=3.3.18"
