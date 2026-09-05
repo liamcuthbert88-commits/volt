@@ -42,8 +42,6 @@ const AUTHOR_NOTE_PREFIX = "author:";
  * with once, caught by actually restarting a real server against a real
  * database rather than trusting the unit tests alone.
  *
- * See src/world/legacy/TraceWorld.ts for what used to live at this
- * file's path, kept for reference and clearly marked deprecated.
  */
 export class World {
   private readonly engine: WorldEngine;
