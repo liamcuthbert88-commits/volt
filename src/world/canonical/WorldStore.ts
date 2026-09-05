@@ -27,9 +27,7 @@ export type WorldEventListener = (event: WorldEvent) => void;
 /**
  * The authoritative, mutable heart of the Living World — now the
  * canonical implementation for the whole project (see
- * src/world/World.ts for the legacy-compatible adapter in front of it,
- * and src/world/legacy/TraceWorld.ts for what used to live at this
- * class's old location).
+ * src/world/World.ts for the legacy-compatible adapter in front of it).
  *
  * Event-sourced: every mutation is recorded as a WorldEvent and applied
  * through one pure reducer, `applyEvent`, shared by both live mutation
