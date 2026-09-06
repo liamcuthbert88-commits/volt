@@ -1,0 +1,24 @@
+# Dependabot had no configuration, so it discovered every manifest in the
+# repository and raised pull requests against all of them. Five of the six open
+# PRs were for trees nothing builds:
+#
+#   the-sanctuary/                  deleted outright — it was dead code
+#   _archive/mobile-app-superseded/ the retired React Native app, kept only as
+#                                   history after volt-hud's Android wrapper
+#                                   won, and since superseded again by VOLT-OS
+#
+# An advisory against a package in a retired app is not a vulnerability in
+# anything that runs. Left unscoped it produces a steady stream of PRs that all
+# have to be read and closed, which is how real advisories start getting
+# skimmed past.
+#
+# So: the root manifest only. If _archive is ever revived it will need its own
+# entry here, deliberately.
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
